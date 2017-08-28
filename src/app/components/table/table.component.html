@@ -1,0 +1,59 @@
+<!-- <table class="table table-striped">
+    <caption *ngIf="caption">{{ caption }}</caption>
+    <thead>
+        <tr>
+            <th *ngFor="let key of keys">{{ key }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let record of records">
+            <td *ngFor="let key of keys">{{ record[key] }}</td>
+        </tr>
+    </tbody>
+</table> -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Fuente</th>
+            <th>Destino</th>
+            <th>Periodo(seg)</th>
+            <th>Tipo</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Conexión a Formulario</td>
+            <td>http://api.visitrack.co...</td>
+            <td>http://api.visitrack.co...</td>
+            <td>180</td>
+            <td>Formulario</td>
+            <td><a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalEdit"><i class="glyphicon glyphicon-pencil"></i> </a></td>
+            <td><a class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalSettings"><i class="glyphicon glyphicon-cog"></i> </a></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Conexión a Imágenes</td>
+            <td>http://api.visitrack.co...</td>
+            <td>http://api.visitrack.co...</td>
+            <td>200</td>
+            <td>Imágen</td>
+            <td><a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalEdit"><i class="glyphicon glyphicon-pencil"></i> </a></td>
+            <td><a class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalSettings"><i class="glyphicon glyphicon-cog"></i> </a></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Conexión a Video</td>
+            <td>http://api.visitrack.co...</td>
+            <td>http://api.visitrack.co...</td>
+            <td>360</td>
+            <td>Video</td>
+            <td><a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalEdit"><i class="glyphicon glyphicon-pencil"></i> </a></td>
+            <td><a class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalSettings"><i class="glyphicon glyphicon-cog"></i> </a></td>
+        </tr>
+    </tbody>
+</table>

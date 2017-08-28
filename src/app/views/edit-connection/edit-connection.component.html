@@ -1,0 +1,62 @@
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">Editar la conexión</h3>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group col-xs-12 col-md-3">
+            <input type="text" class="form-control" placeholder="Nombre de la conexión">
+          </div>
+          <div class="form-group col-xs-12 col-md-3">
+            <input type="text" class="form-control" placeholder="Fuente">
+          </div>
+          <div class="form-group col-xs-12 col-md-3">
+            <input type="text" class="form-control" placeholder="Usuario de la fuente">
+          </div>
+          <div class="form-group col-xs-12 col-md-3">
+            <input type="password" class="form-control" placeholder="Contraseña de la fuente">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-xs-12 col-md-3 col-md-offset-3">
+            <input type="text" class="form-control" placeholder="Destino">
+          </div>
+          <div class="form-group col-xs-12 col-md-3">
+            <input type="text" class="form-control" placeholder="Usuario del destino">
+          </div>
+          <div class="form-group col-xs-12 col-md-3">
+            <input type="password" class="form-control" placeholder="Contraseña del destino">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-xs-12 col-md-3 col-md-offset-3">
+            <input type="number" class="form-control" placeholder="Periodo de sincronización">
+          </div>
+          <div class="form-group col-xs-12 col-md-3">
+            <select class="form-control">
+                    <option disabled selected>Tipo de conexión</option>
+                    <option>Formulario</option>
+                    <option>Imágen</option>
+                    <option>Video</option>
+                  </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-xs-12 col-md-12">
+            <textarea class="form-control" placeholder="Descripción"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
