@@ -4,51 +4,49 @@
 
   <div class="row">
     <div class="form-group col-xs-12 col-md-3">
-      <input type="text" class="form-control" placeholder="Nombre de la conexión">
+      <input type="text" class="form-control" [(ngModel)]="connection.nombreConexion" placeholder="Nombre de la conexión">
     </div>
     <div class="form-group col-xs-12 col-md-3">
-      <input type="text" class="form-control" placeholder="Fuente">
+      <input type="text" class="form-control" [(ngModel)]="connection.fuente" placeholder="Fuente">
     </div>
     <div class="form-group col-xs-12 col-md-3">
-      <input type="text" class="form-control" placeholder="Usuario de la fuente">
+      <input type="text" class="form-control" [(ngModel)]="connection.usuarioFuente" placeholder="Usuario de la fuente">
     </div>
     <div class="form-group col-xs-12 col-md-3">
-      <input type="password" class="form-control" placeholder="Contraseña de la fuente">
+      <input type="password" class="form-control" [(ngModel)]="connection.passFuente" placeholder="Contraseña de la fuente">
     </div>
   </div>
 
   <div class="row">
     <div class="form-group col-xs-12 col-md-3 col-md-offset-3">
-      <input type="text" class="form-control" placeholder="Destino">
+      <input type="text" class="form-control" [(ngModel)]="connection.destino" placeholder="Destino">
     </div>
     <div class="form-group col-xs-12 col-md-3">
-      <input type="text" class="form-control" placeholder="Usuario del destino">
+      <input type="text" class="form-control" [(ngModel)]="connection.usuarioDestino" placeholder="Usuario del destino">
     </div>
     <div class="form-group col-xs-12 col-md-3">
-      <input type="password" class="form-control" placeholder="Contraseña del destino">
+      <input type="password" class="form-control" [(ngModel)]="connection.passDestino" placeholder="Contraseña del destino">
     </div>
   </div>
 
   <div class="row">
     <div class="form-group col-xs-12 col-md-3 col-md-offset-3">
-      <input type="number" class="form-control" placeholder="Periodo de sincronización">
+      <input type="number" class="form-control" [(ngModel)]="connection.periodoSincronizacion" placeholder="Periodo de sincronización">
     </div>
     <div class="form-group col-xs-12 col-md-3">
-      <select class="form-control">
-        <option disabled selected>Tipo de conexión</option>
-        <option>Formulario</option>
-        <option>Imágen</option>
-        <option>Video</option>
-      </select>
+      <select class="form-control" [(ngModel)]="connection.idTipoConexion">
+        <option disabled selected [ngValue]="connection.idTipoConexion">Seleccionar Tipo Conexión</option> 
+       <option *ngFor="let tipo of typeConnections" [ngValue]="tipo.id">{{tipo.nombre}}</option>
+     </select>
     </div>
   </div>
 
   <div class="row">
     <div class="form-group col-xs-12 col-md-12">
-      <textarea class="form-control" placeholder="Descripción"></textarea>
+      <textarea class="form-control" [(ngModel)]="connection.descripcion" placeholder="Descripción"></textarea>
     </div>
   </div>
   <hr>
-  <button class="btn btn-success" (click)="createResource()">Crear</button>
+  <button class="btn btn-success" (click)="createConnection()">Crear</button>
   <a class="btn btn-warning" routerLink="/list-connections">Listar</a>
 </div>

@@ -1,17 +1,21 @@
-<!-- <table class="table table-striped">
+<table class="table table-striped">
     <caption *ngIf="caption">{{ caption }}</caption>
     <thead>
         <tr>
             <th *ngFor="let key of keys">{{ key }}</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let record of records">
-            <td *ngFor="let key of keys">{{ record[key] }}</td>
+            <td *ngFor="let key of keys">{{ (record[key].length>30)? (record[key] | slice:0:30)+'..':(record[key]) }}</td>
+            <td><a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalEdit"><i class="glyphicon glyphicon-pencil"></i> </a></td>
+            <td><a class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalSettings"><i class="glyphicon glyphicon-cog"></i> </a></td>
         </tr>
     </tbody>
-</table> -->
-<table class="table table-striped">
+</table>
+<!-- <table class="table table-striped">
     <thead>
         <tr>
             <th>Id</th>
@@ -56,4 +60,4 @@
             <td><a class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalSettings"><i class="glyphicon glyphicon-cog"></i> </a></td>
         </tr>
     </tbody>
-</table>
+</table> -->

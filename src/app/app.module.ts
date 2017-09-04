@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+// services
+import { ConnectionService } from './services/connection.service';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './views/login/login.component';
@@ -27,9 +30,10 @@ import { EditConnectionComponent } from './views/edit-connection/edit-connection
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [ConnectionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
