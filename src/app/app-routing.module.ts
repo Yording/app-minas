@@ -9,13 +9,16 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CreateConnectionComponent } from './views/create-connection/create-connection.component';
 import { ListConnectionsComponent } from './views/list-connections/list-connections.component';
 import { SettingsConnectionComponent } from './views/settings-connection/settings-connection.component';
+import { SyncMultimediaComponent } from './views/sync-multimedia/sync-multimedia.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'login'},
     { path: 'login', component: LoginComponent },
     { path: 'create-connection', component: CreateConnectionComponent },
     { path: 'list-connections', component: ListConnectionsComponent},
-    { path: 'settings-connections', component: SettingsConnectionComponent}
+    { path: 'settings-connections', component: SettingsConnectionComponent},
+    { path: 'sync-multimedia', component: SyncMultimediaComponent}
+
 ];
 
 @NgModule({

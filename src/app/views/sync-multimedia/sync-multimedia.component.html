@@ -1,0 +1,55 @@
+<div class="container">
+  <h3>Sincronizar Multimedia</h3>
+  <hr>
+
+  <div class="row">
+    <div class="form-group col-xs-12 col-md-3">
+      <select class="form-control" [(ngModel)]="multimedia.idTipoDetalle">
+        <!-- <option disabled selected [ngValue]="connection.idFormulario">Seleccionar Formulario</option>  -->
+       <option *ngFor="let tipoDetalle of tipoDetalles" [ngValue]="tipoDetalle.id">{{tipoDetalle.nombre}}</option>
+     </select>
+    </div>
+    <div class="form-group col-xs-12 col-md-4">
+        <select class="form-control" [(ngModel)]="multimedia.idConexion">
+          <!-- <option disabled selected [ngValue]="connection.idFormulario">Seleccionar Formulario</option>  -->
+         <option *ngFor="let connection of connections" [ngValue]="connection.id">{{connection.nombre}}</option>
+       </select>
+    </div>
+    <!-- <div class="form-group col-xs-12 col-md-5"> -->
+      <p-calendar [(ngModel)]="dateValue" inputStyleClass="form-control" styleClass="form-group col-xs-12 col-md-5" (onSelect)="onSelectDates($event)" placeholder="Seleccione Rango de fechas" selectionMode="range" dateFormat="dd-mm-yy"></p-calendar>
+    <!-- </div> -->
+    <div class="col-xs-12 col-md-12">
+      <p-dataTable [value]="cars">
+        <p-column field="vin" header="Vin"></p-column>
+        <p-column field="year" header="Year"></p-column>
+        <p-column field="brand" header="Brand"></p-column>
+        <p-column field="color" header="Color"></p-column>
+    </p-dataTable>
+    <br>
+    <br>
+    </div>
+    
+    
+    <div class="form-group col-xs-12 col-md-12">
+        <textarea  [(ngModel)]="multimedia.descripcion" placeholder="Descripción" class="form-control"></textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-xs-12 col-md-12">
+      <p-fileUpload chooseLabel="Escoger" accept="image/*" 
+      (onError)="onError($event)" (onClear)="onClear($event)" (onRemove)="onRemove($event)" (onSelect)="onSelect($event)"
+       cancelLabel="Cancelar" multiple="multiple" showUploadButton>
+      </p-fileUpload>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <hr>
+  <button class="btn btn-success" (click)="syncMultimedia()">Sincronizar</button>
+</div>
+<!-- <p-growl  [styleClass]="ui-growl ui-growl-container"></p-growl> -->
+<p-growl [(value)]="msgs">
+  <div class="ui-growl ui-widget" style="z-index: 1120 !important;opacity: 1.104;">
+          <!---->
+      </div>
+</p-growl>

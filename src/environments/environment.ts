@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  api: "http://localhost:50667/odata",
+  apiOdata: "http://localhost:63386/odata",
+  api: "http://localhost:63386/api",
 };

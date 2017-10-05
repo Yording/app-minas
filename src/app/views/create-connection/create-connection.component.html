@@ -6,36 +6,36 @@
     <div class="form-group col-xs-12 col-md-3">
       <input type="text" class="form-control" [(ngModel)]="connection.nombreConexion" placeholder="Nombre de la conexión">
     </div>
-    <div class="form-group col-xs-12 col-md-3">
-      <input type="text" class="form-control" [(ngModel)]="connection.fuente" placeholder="Fuente">
-    </div>
-    <div class="form-group col-xs-12 col-md-3">
-      <input type="text" class="form-control" [(ngModel)]="connection.usuarioFuente" placeholder="Usuario de la fuente">
-    </div>
-    <div class="form-group col-xs-12 col-md-3">
-      <input type="password" class="form-control" [(ngModel)]="connection.passFuente" placeholder="Contraseña de la fuente">
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="form-group col-xs-12 col-md-3 col-md-offset-3">
-      <input type="text" class="form-control" [(ngModel)]="connection.destino" placeholder="Destino">
-    </div>
-    <div class="form-group col-xs-12 col-md-3">
-      <input type="text" class="form-control" [(ngModel)]="connection.usuarioDestino" placeholder="Usuario del destino">
-    </div>
-    <div class="form-group col-xs-12 col-md-3">
-      <input type="password" class="form-control" [(ngModel)]="connection.passDestino" placeholder="Contraseña del destino">
+    <div class="form-group col-xs-12 col-md-6">
+        <!-- <select class="form-control" [(ngModel)]="connection.idFormulario">
+          <option disabled selected [ngValue]="connection.idFormulario">Seleccionar Formulario</option> 
+         <option *ngFor="let form of forms" [ngValue]="form.id">{{form.nombre}}</option>
+       </select> -->
+       
+       <p-autoComplete [(ngModel)]="form" [suggestions]="results" (completeMethod)="searchForm($event)" field="nombreFormulario" [size]="30"
+       placeholder="Buscar Formularios" [minLength]="1"></p-autoComplete>
     </div>
   </div>
 
   <div class="row">
-    <div class="form-group col-xs-12 col-md-3 col-md-offset-3">
+      <div class="form-group col-xs-12 col-md-3">
+          <input type="text" class="form-control" [(ngModel)]="connection.fuente" placeholder="Fuente">
+        </div>
+        <div class="form-group col-xs-12 col-md-3">
+          <input type="text" class="form-control" [(ngModel)]="connection.usuarioFuente" placeholder="Usuario de la fuente">
+        </div>
+        <div class="form-group col-xs-12 col-md-3">
+          <input type="password" class="form-control" [(ngModel)]="connection.contrasenaFuente" placeholder="Contraseña de la fuente">
+        </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-xs-12 col-md-3">
       <input type="number" class="form-control" [(ngModel)]="connection.periodoSincronizacion" placeholder="Periodo de sincronización">
     </div>
     <div class="form-group col-xs-12 col-md-3">
       <select class="form-control" [(ngModel)]="connection.idTipoConexion">
-        <option disabled selected [ngValue]="connection.idTipoConexion">Seleccionar Tipo Conexión</option> 
+        <!-- <option disabled selected [ngValue]="connection.idTipoConexion">Seleccionar Tipo Conexión</option>  -->
        <option *ngFor="let tipo of typeConnections" [ngValue]="tipo.id">{{tipo.nombre}}</option>
      </select>
     </div>
@@ -50,3 +50,10 @@
   <button class="btn btn-success" (click)="createConnection()">Crear</button>
   <a class="btn btn-warning" routerLink="/list-connections">Listar</a>
 </div>
+
+<!-- <p-growl  [styleClass]="ui-growl ui-growl-container"></p-growl> -->
+<p-growl [(value)]="msgs">
+  <div class="ui-growl ui-widget" style="z-index: 1120 !important;opacity: 1.104;">
+          <!---->
+      </div>
+</p-growl>
