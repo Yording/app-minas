@@ -33,7 +33,7 @@ export class ListConnectionsComponent implements OnInit {
               "Nombre": ele["nombreConexion"],
               "Formulario": ele["Formulario"]["nombreFormulario"],
               "Fuente": ele["fuente"],
-              "Periodo(seg)": ele["periodoSincronizacion"],
+              "Periodo": ele["periodoSincronizacion"],
               "Tipo": ele["TipoConexion"]["nombreTipoConexion"],
             }
           })

@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+// import { Http } from '@angular/http'; 
+// import { Headers } from '@angular/http'
+// import { RequestOptions } from '@angular/http'; 
 
 // Services
 import { ConnectionService } from '../../services/connection.service';
 import { DetailService } from '../../services/detail.service';
 
 import { GrowlModule, Message } from 'primeng/primeng';
+
+import 'rxjs/add/operator/map'; 
 
 @Component({
   selector: 'app-sync-multimedia',
@@ -49,11 +54,42 @@ export class SyncMultimediaComponent implements OnInit {
     })
     
   }
+
+  // GuardarFormato(ObjetoFormato: any, UrlServicio: string) {
+  
+  //     var Datos = new FormData;
+      
+  //     Datos.append('idActividad', this.multimedia["idActividad"]);
+  //     Datos.append('idConexion', this.multimedia["idActividad"]);
+  //     Datos.append('files', this.multimedia["files"]);
+  //     Datos.append('idTipoDetalle', this.multimedia["idTipoDetalle"]);
+  //     Datos.append('descripcion', this.multimedia["descripcion"]);
+  //     Datos.append('nombreActividad', this.multimedia["nombreActividad"]);
+
+      
+  //     // var headers = new Headers();
+  //     // var options = new RequestOptions({header: headers });
+      
+  //     return this._http.post(UrlServicio + 'Formato'
+  //     , Datos).map(res => res.json());
+  // } 
   
   syncMultimedia(){
     this.multimedia["files"] = this.uploadedFiles
+    this.multimedia["idActividad"] = 1
     console.log(this.multimedia)
-    this.detailService.uploadMultimedia(this.multimedia)
+    var Datos = new FormData
+    for (let i = 0; i < this.uploadedFiles.length; i++) {
+      Datos.append(`files[]`, this.uploadedFiles[i], this.uploadedFiles[i].name);
+   }
+    Datos.append('idActividad', this.multimedia["idActividad"]);
+    Datos.append('idConexion', this.multimedia["idActividad"]);
+    // Datos.append('files', this.multimedia["files"]);
+    Datos.append('idTipoDetalle', this.multimedia["idTipoDetalle"]);
+    Datos.append('descripcion', this.multimedia["descripcion"]);
+    Datos.append('nombreActividad', this.multimedia["nombreActividad"]);
+    console.log(Datos)
+    this.detailService.uploadMultimedia(Datos)
   }
 
   onSelectDates(event){

@@ -27,11 +27,7 @@ export class DetailService {
     
     return fetch(`${environment.api}/CargarMedia`, {
       method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(multimedia)
+      body: multimedia
     })
   }
 
