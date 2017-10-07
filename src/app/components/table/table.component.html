@@ -16,13 +16,12 @@
 <p-dataTable [value]="records" [rows]="10" [paginator]="true" [pageLinks]="3">
     <p-column field="Id" header="Id"></p-column>
     <p-column field="Nombre" header="Nombre"></p-column>
-    <p-column field="Formulario" header="Formulario"></p-column>
-    <p-column field="Periodo" header="Periodo Sincronización(min)">
+    <p-column field="Formulario" header="Formulario">
         <ng-template let-col let-car="rowData" pTemplate="body">
-                <span>{{(car[col.field].length>30)?  (car[col.field] | slice:0:30)+'..':(car[col.field])}}</span>
+            <span>{{ (car[col.field].length>30)? (car[col.field] | slice:0:30)+'..':(car[col.field]) }}</span>
         </ng-template>
-        <!-- {{ (record[key].length>30)? (record[key] | slice:0:30)+'..':(record[key]) }} -->
     </p-column>
+    <p-column field="Periodo" header="Periodo Sincronización(min)"></p-column>
 </p-dataTable>
 <!-- <table class="table table-striped">
     <thead>

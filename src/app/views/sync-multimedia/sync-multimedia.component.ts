@@ -24,7 +24,8 @@ export class SyncMultimediaComponent implements OnInit {
   uploadedFiles: any[] = [];
   msgs: Message[] = [];
   dateValue: Date;
-
+  actividades:any=[]
+  actividad:any =[]
   constructor(private connectionService: ConnectionService, private detailService: DetailService) { 
     this.reset()
   }
@@ -36,8 +37,8 @@ export class SyncMultimediaComponent implements OnInit {
       this.connections = response.map(ele => {
         return {
           id: ele["idConexion"],
-          nombre: ele["Formulario"]["nombreFormulario"]
-          
+          nombre: ele["Formulario"]["nombreFormulario"],
+          guid:ele["Formulario"]["GUIDFormulario"]
         }
       })
     })
@@ -55,45 +56,43 @@ export class SyncMultimediaComponent implements OnInit {
     
   }
 
-  // GuardarFormato(ObjetoFormato: any, UrlServicio: string) {
-  
-  //     var Datos = new FormData;
-      
-  //     Datos.append('idActividad', this.multimedia["idActividad"]);
-  //     Datos.append('idConexion', this.multimedia["idActividad"]);
-  //     Datos.append('files', this.multimedia["files"]);
-  //     Datos.append('idTipoDetalle', this.multimedia["idTipoDetalle"]);
-  //     Datos.append('descripcion', this.multimedia["descripcion"]);
-  //     Datos.append('nombreActividad', this.multimedia["nombreActividad"]);
-
-      
-  //     // var headers = new Headers();
-  //     // var options = new RequestOptions({header: headers });
-      
-  //     return this._http.post(UrlServicio + 'Formato'
-  //     , Datos).map(res => res.json());
-  // } 
-  
   syncMultimedia(){
     this.multimedia["files"] = this.uploadedFiles
-    this.multimedia["idActividad"] = 1
+    this.multimedia["idActividad"] = this.actividad["IdActividad"]
+    this.multimedia["nombreActividad"] = this.actividad["NombreFormulario"]
     console.log(this.multimedia)
     var Datos = new FormData
     for (let i = 0; i < this.uploadedFiles.length; i++) {
-      Datos.append(`files[]`, this.uploadedFiles[i], this.uploadedFiles[i].name);
+      Datos.append(`files[${i}]`, this.uploadedFiles[i], this.uploadedFiles[i].name);
    }
     Datos.append('idActividad', this.multimedia["idActividad"]);
-    Datos.append('idConexion', this.multimedia["idActividad"]);
+    Datos.append('idConexion', this.multimedia["conexion"]["id"]);
     // Datos.append('files', this.multimedia["files"]);
     Datos.append('idTipoDetalle', this.multimedia["idTipoDetalle"]);
     Datos.append('descripcion', this.multimedia["descripcion"]);
     Datos.append('nombreActividad', this.multimedia["nombreActividad"]);
-    console.log(Datos)
+    // console.log(Datos)
     this.detailService.uploadMultimedia(Datos)
   }
 
   onSelectDates(event){
-    console.log(this.dateValue)
+      var FechaInicio = new Date(this.dateValue[0]).toISOString().slice(0, 10);
+      var FechaFin = new Date(this.dateValue[1]).toISOString().slice(0, 10);
+      if(FechaFin == null){
+        FechaFin = FechaInicio
+      }
+      this.detailService.getActividades(this.multimedia["conexion"]["guid"],FechaInicio,FechaFin)
+      .then(data => {
+          this.actividades = data["Data"]
+      })
+      .catch(err=>{
+
+      })
+    
+  }
+  onRowSelect(event) {
+    this.msgs = [];
+    this.msgs.push({severity: 'info', summary: 'Actividad Seleccionada', detail: event.data.IdActividad + ' - ' + event.data.NombreFormulario + ' - ' + event.data.Usuario});
   }
 
   reset(){

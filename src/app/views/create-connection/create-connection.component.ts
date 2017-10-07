@@ -66,12 +66,14 @@ export class CreateConnectionComponent implements OnInit {
   
   createConnection(){
     this.msgs = []
+    
     try{
       if(typeof(this.form) == "string" || this.form["idFormulario"]==undefined){
         this.msgs.push({severity:'error', summary:'Error', detail:'Por favor seleccione un formulario para permitir crear la conexión.'});
       }
       else{
         this.connection["idFormulario"] = this.form["idFormulario"]
+        console.log(this.connection)
         this.connectionService.createConnection(this.connection)
         .then(response => {
           if(response.ok){

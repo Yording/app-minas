@@ -23,6 +23,20 @@ export class DetailService {
     })
   }
 
+  getActividades(NombreTabla: string,FechaInicio:string,FechaFin:string):any{
+    return fetch(`${environment.api}/Actividades?NombreTabla=F${NombreTabla}&Fechainicio=${FechaInicio}&FechaFin=${FechaFin}`,{
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      return response.json()
+    })
+    
+  }
+
   uploadMultimedia(multimedia: object): any{
     
     return fetch(`${environment.api}/CargarMedia`, {
