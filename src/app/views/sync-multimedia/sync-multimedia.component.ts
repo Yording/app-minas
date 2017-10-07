@@ -69,8 +69,8 @@ export class SyncMultimediaComponent implements OnInit {
     Datos.append('idConexion', this.multimedia["conexion"]["id"]);
     // Datos.append('files', this.multimedia["files"]);
     Datos.append('idTipoDetalle', this.multimedia["idTipoDetalle"]);
-    Datos.append('descripcion', this.multimedia["descripcion"]);
-    Datos.append('nombreActividad', this.multimedia["nombreActividad"]);
+    Datos.append('Descripcion', this.multimedia["descripcion"]);
+    Datos.append('NombreActividad', this.multimedia["nombreActividad"]);
     // console.log(Datos)
     this.detailService.uploadMultimedia(Datos)
   }
