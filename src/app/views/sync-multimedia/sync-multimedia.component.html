@@ -1,22 +1,22 @@
 <div class="container">
-  <h3>Sincronizar Multimedia</h3>
+  <h3>Sincronizar multimedia</h3>
   <hr>
 
   <div class="row">
     <div class="form-group col-xs-12 col-md-3">
-      <select class="form-control" [(ngModel)]="multimedia.idTipoDetalle">
+      <select class="form-control" [(ngModel)]="multimedia.tipoDetalle" (change)="onChangeTipoDetalle($event)" placeholder="Seleccionar tipo de detalle">
         <!-- <option disabled selected [ngValue]="connection.idFormulario">Seleccionar Formulario</option>  -->
-       <option *ngFor="let tipoDetalle of tipoDetalles" [ngValue]="tipoDetalle.id">{{tipoDetalle.nombre}}</option>
+       <option *ngFor="let tipoDetalle of tipoDetalles" [ngValue]="tipoDetalle">{{tipoDetalle.nombre}}</option>
      </select>
     </div>
     <div class="form-group col-xs-12 col-md-4">
-        <select class="form-control" [(ngModel)]="multimedia.conexion">
+        <select class="form-control" [(ngModel)]="multimedia.conexion" (change)="onChangeConexion()">
           <!-- <option disabled selected [ngValue]="connection.idFormulario">Seleccionar Formulario</option>  -->
          <option *ngFor="let connection of connections" [ngValue]="connection">{{connection.nombre}}</option>
        </select>
     </div>
     <!-- <div class="form-group col-xs-12 col-md-5"> -->
-      <p-calendar [(ngModel)]="dateValue"  [disabled]="multimedia.conexion==undefined" inputStyleClass="form-control" styleClass="form-group col-xs-12 col-md-5" (onSelect)="onSelectDates($event)" placeholder="Seleccione Rango de fechas" selectionMode="range" dateFormat="dd-mm-yy"></p-calendar>
+      <p-calendar [(ngModel)]="dateValue"  [disabled]="multimedia.conexion['id']==undefined" inputStyleClass="form-control" styleClass="form-group col-xs-12 col-md-5" (onSelect)="onSelectDates($event)" placeholder="Seleccione rango de fechas" selectionMode="range" dateFormat="dd-mm-yy"></p-calendar>
     <!-- </div> -->
     <div class="form-group col-xs-12 col-md-12">
       <textarea  [(ngModel)]="multimedia.descripcion" placeholder="Descripción" class="form-control"></textarea>
@@ -46,15 +46,18 @@
 
   <div class="row">
     <div class="form-group col-xs-12 col-md-12">
-      <p-fileUpload chooseLabel="Escoger" accept="image/*" 
+      <p-fileUpload chooseLabel="Escoger" accept="{{acceptFileUpload}}" 
       (onError)="onError($event)" (onClear)="onClear($event)" (onRemove)="onRemove($event)" (onSelect)="onSelect($event)"
-       cancelLabel="Cancelar" multiple="multiple" showUploadButton>
+       cancelLabel="Cancelar" multiple="multiple" showUploadButton #fileInput>
       </p-fileUpload>
     </div>
   </div>
   <div class="clearfix"></div>
   <hr>
-  <button class="btn btn-success" (click)="syncMultimedia()">Sincronizar</button>
+  <button class="btn btn-success" (click)="!cargando && syncMultimedia()" [ngClass]="{disabled : cargando}">Sincronizar</button>
+  <br>
+  <br>
+  <br>
 </div>
 <!-- <p-growl  [styleClass]="ui-growl ui-growl-container"></p-growl> -->
 <p-growl [(value)]="msgs">

@@ -9,8 +9,8 @@ export class ConnectionService {
   constructor() { }
 
   getConnections(): any{
-    this.queryJoin = "expand=TipoConexion,Formulario"
-    this.querySelect = "select=*,TipoConexion/*,Formulario/*"
+    this.queryJoin = "expand=Formulario"
+    this.querySelect = "select=*,Formulario/*"
     return fetch(`${environment.apiOdata}/Conexiones?$${this.queryJoin}&$${this.querySelect}`,{
       method: 'GET',
       headers: {
@@ -25,6 +25,32 @@ export class ConnectionService {
       console.log(err)
       throw err;
     })
+  }
+  validarNombreConexionExiste(nombreConexion:string):any{
+    return fetch(`${environment.apiOdata}/Conexiones?$filter=nombreConexion eq '${nombreConexion}'`,{
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      return response.json()
+    })
+    
+  }
+  validarFormularioExiste(nombreConexion:number):any{
+    return fetch(`${environment.apiOdata}/Conexiones?$filter=idFormulario eq ${nombreConexion}`,{
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      return response.json()
+    })
+    
   }
   getTypeConnections():any{
     return fetch(`${environment.apiOdata}/TipoConexiones`,{

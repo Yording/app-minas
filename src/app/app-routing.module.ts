@@ -11,18 +11,22 @@ import { ListConnectionsComponent } from './views/list-connections/list-connecti
 import { SettingsConnectionComponent } from './views/settings-connection/settings-connection.component';
 import { SyncMultimediaComponent } from './views/sync-multimedia/sync-multimedia.component';
 
+// guards
+import {AuthGuard} from './guards/auth.guard'
+
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'login'},
     { path: 'login', component: LoginComponent },
-    { path: 'create-connection', component: CreateConnectionComponent },
-    { path: 'list-connections', component: ListConnectionsComponent},
-    { path: 'settings-connections', component: SettingsConnectionComponent},
+    { path: 'create-connection', component: CreateConnectionComponent, canActivate:[AuthGuard] },
+    { path: 'list-connections', component: ListConnectionsComponent, canActivate:[AuthGuard]},
+    { path: 'settings-connections', component: SettingsConnectionComponent, canActivate:[AuthGuard]},
     { path: 'sync-multimedia', component: SyncMultimediaComponent}
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

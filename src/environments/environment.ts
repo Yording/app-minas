@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  apiOdata: "http://localhost:63386/odata",
-  api: "http://localhost:63386/api",
+  apiOdata: "http://sistemaseguimientominasqa.azurewebsites.net/odata",
+  api: "http://sistemaseguimientominasqa.azurewebsites.net/api",
 };

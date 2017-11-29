@@ -6,14 +6,17 @@
     <div class="form-group col-xs-12 col-md-3">
       <input type="text" class="form-control" [(ngModel)]="connection.nombreConexion" placeholder="Nombre de la conexión">
     </div>
-    <div class="form-group col-xs-12 col-md-6">
+    <div class="form-group col-xs-12 col-md-3">
         <!-- <select class="form-control" [(ngModel)]="connection.idFormulario">
           <option disabled selected [ngValue]="connection.idFormulario">Seleccionar Formulario</option> 
          <option *ngFor="let form of forms" [ngValue]="form.id">{{form.nombre}}</option>
        </select> -->
        
        <p-autoComplete [(ngModel)]="form" [suggestions]="results" (completeMethod)="searchForm($event)" field="nombreFormulario" [size]="30"
-       placeholder="Buscar Formularios" [minLength]="1"></p-autoComplete>
+       placeholder="Buscar formularios" [minLength]="1"></p-autoComplete>
+    </div>
+    <div class="form-group col-xs-12 col-md-3">
+      <input type="number" class="form-control" [(ngModel)]="connection.periodoSincronizacion" placeholder="Periodo de sincronización">
     </div>
   </div>
 
@@ -30,15 +33,13 @@
   </div> -->
 
   <div class="row">
-    <div class="form-group col-xs-12 col-md-3">
-      <input type="number" class="form-control" [(ngModel)]="connection.periodoSincronizacion" placeholder="Periodo de sincronización">
-    </div>
-    <div class="form-group col-xs-12 col-md-3">
+    
+    <!-- <div class="form-group col-xs-12 col-md-3">
       <select class="form-control" [(ngModel)]="connection.idTipoConexion">
-        <!-- <option disabled selected [ngValue]="connection.idTipoConexion">Seleccionar Tipo Conexión</option>  -->
+        <option disabled selected [ngValue]="connection.idTipoConexion">Seleccionar Tipo Conexión</option> 
        <option *ngFor="let tipo of typeConnections" [ngValue]="tipo.id">{{tipo.nombre}}</option>
      </select>
-    </div>
+    </div> -->
   </div>
 
   <div class="row">

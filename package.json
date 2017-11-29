@@ -27,6 +27,7 @@
     "dateformat": "^3.0.2",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
+    "ng2-simple-global": "^1.2.5",
     "primeng": "^4.2.1",
     "rxjs": "^5.4.1",
     "zone.js": "^0.8.14"

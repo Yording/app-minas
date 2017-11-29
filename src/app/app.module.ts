@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
+import { SimpleGlobal } from 'ng2-simple-global';
 
 // services
 import { ConnectionService } from './services/connection.service';
@@ -52,7 +53,7 @@ import { SyncMultimediaComponent } from './views/sync-multimedia/sync-multimedia
     SharedModule,
     CalendarModule
   ],
-  providers: [ConnectionService,FormService,DetailService],
+  providers: [ConnectionService,FormService,DetailService,SimpleGlobal],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

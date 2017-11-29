@@ -6,6 +6,9 @@ import { FormService } from '../../services/form.service';
 import {JobService} from '../../services/job.service';
 import { GrowlModule, Message } from 'primeng/primeng';
 
+//Models
+import {Connection} from '../../models/connection.model'
+
 @Component({
   selector: 'app-create-connection',
   templateUrl: './create-connection.component.html',
@@ -14,9 +17,9 @@ import { GrowlModule, Message } from 'primeng/primeng';
 })
 export class CreateConnectionComponent implements OnInit {
 
-  private connection:object
-  private typeConnections: object[]
-  private forms: object[]
+  connection = new Connection()
+  typeConnections: object[]
+  forms: object[]
   form: object;
   results: string[];
   msgs: Message[] = [];
@@ -26,17 +29,17 @@ export class CreateConnectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.connectionService.getTypeConnections()
-    .then(data => {
-      var response = data["value"]
-      this.typeConnections = response.map(ele => {
-        return {
-          id: ele["idTipoConexion"],
-          nombre: ele["nombreTipoConexion"]
+    // this.connectionService.getTypeConnections()
+    // .then(data => {
+    //   var response = data["value"]
+    //   this.typeConnections = response.map(ele => {
+    //     return {
+    //       id: ele["idTipoConexion"],
+    //       nombre: ele["nombreTipoConexion"]
           
-        }
-      })
-    })
+    //     }
+    //   })
+    // })
     this.jobService.getJobDisponible()
     .then(data => {
         var value = data["Data"]["idJob"]
@@ -68,8 +71,17 @@ export class CreateConnectionComponent implements OnInit {
     this.msgs = []
     
     try{
-      if(typeof(this.form) == "string" || this.form["idFormulario"]==undefined){
-        this.msgs.push({severity:'error', summary:'Error', detail:'Por favor seleccione un formulario para permitir crear la conexión.'});
+      if(this.connection["nombreConexion"] == ""){
+        this.msgs.push({severity:'error', summary:'Error', detail:'El campo nombre de la conexión es obligatorio.'});
+      }
+      else if(typeof(this.form) == "string" || this.form["idFormulario"]==undefined){
+        this.msgs.push({severity:'error', summary:'Error', detail:'El campo buscar formularios es obligatorio.'});
+      }
+      else if(this.connection["periodoSincronizacion"] == null || this.connection["periodoSincronizacion"] == undefined){
+        this.msgs.push({severity:'error', summary:'Error', detail:'El campo periodo de sincronización es obligatorio.'});
+      }
+      else if(this.connection["periodoSincronizacion"] < 5){
+        this.msgs.push({severity:'error', summary:'Error', detail:'El valor de periodo sincronización se requiere sea mayor o igual a 5 minutos.'});
       }
       else{
         this.connection["idFormulario"] = this.form["idFormulario"]
@@ -80,6 +92,26 @@ export class CreateConnectionComponent implements OnInit {
             this.msgs.push({severity:'success', summary:'Correcto', detail:'La Conexión fue creada correctamente.'});
             this.jobService.actualizarFecha(this.form["GUIDFormulario"])
             this.reset()
+          }
+          else{
+            this.connectionService.validarNombreConexionExiste(this.connection["nombreConexion"])
+            .then(data => {
+              if(data.value.length == 0){
+                return true
+              }
+              else{
+                this.msgs.push({severity:'error', summary:'Error', detail:'El nombre para esta conexión ya esta siendo usado, por favor intentar con otro nombre.'});
+              }
+            })
+            this.connectionService.validarFormularioExiste(this.connection["idFormulario"])
+            .then(data => {
+              if(data.value.length == 0){
+                return true
+              }
+              else{
+                this.msgs.push({severity:'error', summary:'Error', detail:'Ya existe una conexión creada para este formulario, por favor intentar con otro formulario.'});
+              }
+            })
           }
         })
         .catch(err => {
@@ -98,13 +130,12 @@ export class CreateConnectionComponent implements OnInit {
   }
 
   reset(){
-    this.connection = {}
+    this.connection = new Connection()
     this.form = {}
   }
 
   searchForm(event){
     this.formService.getFormsQuery(event.query).then(data => {
-      console.log(data.value)
       this.results = data.value;
     });
   }

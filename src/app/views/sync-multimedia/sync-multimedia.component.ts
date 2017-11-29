@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-// import { Http } from '@angular/http'; 
-// import { Headers } from '@angular/http'
-// import { RequestOptions } from '@angular/http'; 
+import { Component, OnInit,Renderer, ElementRef, ViewChild } from '@angular/core';
+import {SimpleGlobal} from 'ng2-simple-global';
 
 // Services
 import { ConnectionService } from '../../services/connection.service';
 import { DetailService } from '../../services/detail.service';
-
 import { GrowlModule, Message } from 'primeng/primeng';
+
+//Models
+import {Multimedia} from '../../models/multimedia.model'
+import {Col} from '../../models/col.model'
 
 import 'rxjs/add/operator/map'; 
 
@@ -17,16 +18,22 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./sync-multimedia.component.css'],
 })
 export class SyncMultimediaComponent implements OnInit {
-
-  private multimedia:object
-  private connections: object[]
-  private tipoDetalles: object[]
+  @ViewChild('fileInput') fileInput:ElementRef;
+  multimedia = new Multimedia()
+  col = new Col()
+  connections: object[]
+  tipoDetalles: object[]
   uploadedFiles: any[] = [];
   msgs: Message[] = [];
   dateValue: Date;
   actividades:any=[]
   actividad:any =[]
-  constructor(private connectionService: ConnectionService, private detailService: DetailService) { 
+  cargando:boolean=false;
+  //Propiedad para indicar que archivos se pueden seleccionar
+  acceptFileUpload: string = ""
+
+  constructor(private connectionService: ConnectionService, private detailService: DetailService,private sg: SimpleGlobal,private renderer:Renderer) { 
+   
     this.reset()
   }
 
@@ -53,34 +60,71 @@ export class SyncMultimediaComponent implements OnInit {
           }
       })
     })
-    
   }
 
   syncMultimedia(){
+    this.msgs = []
     this.multimedia["files"] = this.uploadedFiles
     this.multimedia["idActividad"] = this.actividad["IdActividad"]
     this.multimedia["nombreActividad"] = this.actividad["NombreFormulario"]
-    console.log(this.multimedia)
-    var Datos = new FormData
-    for (let i = 0; i < this.uploadedFiles.length; i++) {
-      Datos.append(`files[${i}]`, this.uploadedFiles[i], this.uploadedFiles[i].name);
-   }
-    Datos.append('idActividad', this.multimedia["idActividad"]);
-    Datos.append('idConexion', this.multimedia["conexion"]["id"]);
-    // Datos.append('files', this.multimedia["files"]);
-    Datos.append('idTipoDetalle', this.multimedia["idTipoDetalle"]);
-    Datos.append('Descripcion', this.multimedia["descripcion"]);
-    Datos.append('NombreActividad', this.multimedia["nombreActividad"]);
-    // console.log(Datos)
-    this.detailService.uploadMultimedia(Datos)
+    // console.log(this.multimedia)
+    if(this.multimedia["files"].length == 0){
+      this.msgs.push({severity:'error', summary:'Error', detail:'Es obligatorio añadir multimedia para sincronizar.'});
+    }
+    else if(this.multimedia["idActividad"] == undefined){
+      this.msgs.push({severity:'error', summary:'Error', detail:'Es obligatorio seleccionar una actividad para la multimedia.'});
+    }
+    else if(this.multimedia["conexion"]["id"] == undefined){
+      this.msgs.push({severity:'error', summary:'Error', detail:'Es obligatorio seleccionar una conexión para la multimedia.'});
+    }
+    else if(this.multimedia["tipoDetalle"]["id"] == undefined){
+      this.msgs.push({severity:'error', summary:'Error', detail:'Es obligatorio seleccionar una tipo detalle para la multimedia.'});
+    }
+    else{
+      this.cargando = true;
+      var Datos = new FormData
+      for (let i = 0; i < this.uploadedFiles.length; i++) {
+        Datos.append(`files[${i}]`, this.uploadedFiles[i], this.uploadedFiles[i].name);
+     }
+      Datos.append('idActividad', this.multimedia["idActividad"]);
+      Datos.append('idConexion', this.multimedia["conexion"]["id"]);
+      Datos.append('idTipoDetalle', this.multimedia["tipoDetalle"]["id"]);
+      Datos.append('Descripcion', (this.multimedia["descripcion"] == undefined) ? "" : this.multimedia["descripcion"]);
+      Datos.append('NombreActividad', this.multimedia["nombreActividad"]);
+      this.detailService.uploadMultimedia(Datos)
+      .then(response => {
+        // console.log(response)
+        if(response.ok){
+          this.msgs.push({severity:'success', summary:'Correcto', detail:'La multimedia se sincronizó satisfactoriamente.'});
+          this.reset()
+          //Limpiar la Multimedia es la unica forma de realizarlo, ya que si llamo
+          // onclear solo funciona el array pero no limpia el componente
+          this.fileInput["onClear"].emit()
+          this.fileInput["files"]= []
+          this.cargando = false;
+          setTimeout(function(){
+            this.msgs = []
+          },5000)
+        }
+        else{
+          this.msgs.push({severity:'error', summary:'Error', detail:'Se tuvó un error al realizar la petición al servidor.'});
+          this.cargando = false;
+        }
+      })
+      .catch(err => {
+        console.log("Error-----------------:"+ err)
+        this.msgs.push({severity:'error', summary:'Error', detail:'Se tuvó el siguiente error al sincronizar la multimedia: '+err});
+        this.cargando = false;
+        throw err;
+      })  
+
+    }
+
   }
 
   onSelectDates(event){
       var FechaInicio = new Date(this.dateValue[0]).toISOString().slice(0, 10);
-      var FechaFin = new Date(this.dateValue[1]).toISOString().slice(0, 10);
-      if(FechaFin == null){
-        FechaFin = FechaInicio
-      }
+      var FechaFin = this.dateValue[1] != null ? new Date(this.dateValue[1]).toISOString().slice(0, 10):FechaInicio
       this.detailService.getActividades(this.multimedia["conexion"]["guid"],FechaInicio,FechaFin)
       .then(data => {
           this.actividades = data["Data"]
@@ -96,14 +140,32 @@ export class SyncMultimediaComponent implements OnInit {
   }
 
   reset(){
-    this.multimedia = {}
-    this.uploadedFiles = []
+    this.multimedia = new Multimedia()
+    this.dateValue = new Date
+    this.actividades = []
+    this.actividad = []
   }
 
   onError(event) {
     this.msgs = []
     this.msgs.push({severity:'error', summary:'Error', detail:'Se tuvó el siguiente err: '+event.err});
     // console.log("onError",event)
+  }
+  onChangeConexion(){
+    this.dateValue = new Date
+    this.actividades = []
+  }
+  onChangeTipoDetalle(event){
+    this.fileInput["onClear"].emit()
+    this.fileInput["files"]= []
+    if(this.multimedia["tipoDetalle"]["nombre"] == "Imágen"){
+      this.acceptFileUpload = "image/*"
+    }
+    else{
+      
+      this.acceptFileUpload = "video/*"
+    }
+    
   }
   onClear(event) {
     // console.log("onClear",event)
