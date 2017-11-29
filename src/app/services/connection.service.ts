@@ -81,4 +81,18 @@ export class ConnectionService {
     })
   }
 
+updateConnection(connection: object): any{
+   //console.log(JSON.stringify(connection));
+  return fetch(`${environment.apiOdata}/Conexiones(${connection["idConexion"]})`, {
+    method: "PUT",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(connection)
+  })
+
+
+}
+
 }

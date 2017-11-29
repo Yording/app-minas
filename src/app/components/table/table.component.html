@@ -22,6 +22,13 @@
         </ng-template>
     </p-column>
     <p-column field="Periodo" header="Periodo Sincronización(min)"></p-column>
+    <p-column field="Editar" header="Editar">
+        <ng-template let-col let-car="rowData" pTemplate="body">
+        <a class="btn btn-warning btn-xs" data-toggle="modal" (click)="cargarArchivo(car)" data-target="#modalEdit"><i class="glyphicon glyphicon-pencil"></i> </a>
+        </ng-template>
+        </p-column> 
+     
+    
 </p-dataTable>
 <!-- <table class="table table-striped">
     <thead>

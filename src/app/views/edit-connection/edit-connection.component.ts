@@ -11,5 +11,4 @@ export class EditConnectionComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

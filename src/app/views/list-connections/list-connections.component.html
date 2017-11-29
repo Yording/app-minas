@@ -1,9 +1,29 @@
-<app-settings-connection></app-settings-connection>
-<app-edit-connection></app-edit-connection>
+<!-- <app-settings-connection></app-settings-connection> -->
+<!-- <app-edit-connection></app-edit-connection> -->
 <div class="container">
   <h3>Listar Conexiones</h3>
   <hr>
-  <app-table [records]="connections"></app-table>
+  <!-- <app-table [records]="connections"></app-table> -->
+
+  <p-dataTable [value]="connections" [rows]="10" [paginator]="true" [pageLinks]="3">
+    <p-column field="Id" header="Id"></p-column>
+    <p-column field="Nombre" header="Nombre"></p-column>
+    <p-column field="Formulario" header="Formulario">
+      <ng-template let-col let-car="rowData" pTemplate="body">
+        <span>{{ (car[col.field].length>30)? (car[col.field] | slice:0:30)+'..':(car[col.field]) }}</span>
+      </ng-template>
+    </p-column>
+    <p-column field="Periodo" header="Periodo Sincronización(min)"></p-column>
+    <p-column header="Editar">
+      <ng-template let-col let-car="rowData"  pTemplate="body">
+        <button style="margin-left:45%;" class="btn btn-warning btn-xs"  data-toggle="modal" (click)="cargarArchivo(car)"  data-target="#modalEdit">
+          <i class="glyphicon glyphicon-pencil"></i>
+            </button>
+            </ng-template>
+    </p-column>
+
+
+  </p-dataTable>
   <!-- <div class="row">
     <div class="col-xs-10 col-xs-offset-1" align="center">
       <nav aria-label="Page navigation">
@@ -27,7 +47,45 @@
       </nav>
     </div>
   </div> -->
-  
+
+  <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3 class="modal-title" id="myModalLabel">Editar la conexión</h3>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-xs-12 col-md-6">
+              <label for="Nombre">Nombre Conexión</label>
+              <input type="text" class="form-control" maxlength="120" id="NombreConexion" required [(ngModel)]="objConexxion.nombreConexion"
+                name="NombreConexion" placeholder="Nombre conexión">
+            </div>
+
+            <div class="form-group col-xs-12 col-md-6">
+              <label for="Nombre">Periodo de sincronización(min)</label>
+              <input type="text" class="form-control" min="0" id="Periodo" required [(ngModel)]="objConexxion.periodoSincronizacion" name="Periodo"
+                placeholder="Periodo">
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="form-group col-xs-12 col-md-12">
+              <label for="Nombre">Descripción</label>
+              <textarea class="form-control" style="resize:none;overflow:hidden;" placeholder="Descripción" required [(ngModel)]="objConexxion.descripcion"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="updateConnection()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <hr>
   <a class="btn btn-success" routerLink="/create-connection">Añadir</a>
 </div>
