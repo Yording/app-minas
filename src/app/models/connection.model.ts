@@ -8,6 +8,7 @@ export class Connection{
         public idConexion?: number,
         public idFormulario?: number,
         public idJob?: number,
+        public fechaActualizacion?:string
     ){
 
     }

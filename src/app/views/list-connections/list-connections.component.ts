@@ -33,7 +33,7 @@ export class ListConnectionsComponent implements OnInit {
 
   cargarArchivo(Datos) {
     //console.log(Datos);
-    this.objConexxion = new Connection(Datos.Nombre,Datos.Periodo,Datos.descripcion,Datos.Id,Datos.idFormulario,Datos.idjob)
+    this.objConexxion = new Connection(Datos.Nombre,Datos.Periodo,Datos.descripcion,Datos.Id,Datos.idFormulario,Datos.idjob,Datos.fechaActualizacion)
   
   }
 
@@ -54,6 +54,7 @@ export class ListConnectionsComponent implements OnInit {
           "descripcion": ele["descripcion"],
           "idFormulario": ele["idFormulario"],
           "idjob": ele["idJob"],
+          "fechaActualizacion": ele["fechaActualizacion"],
   
         }
       })
